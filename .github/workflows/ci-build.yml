@@ -28,7 +28,13 @@ jobs:
       - name: Build backend
         run: |
           cd back
-          mvn clean install
+          mvn clean install jacoco:report
+
+      - name: Upload coverage reports
+        uses: actions/upload-artifact@v3
+        with:
+          name: backend-coverage
+          path: back/target/site/jacoco/
 
   frontend:
     runs-on: ubuntu-latest
@@ -51,7 +57,14 @@ jobs:
         run: |
           cd front
           npm install
+          npm run test -- --code-coverage --watch=false --browsers=ChromeHeadless
           npm run build
+
+      - name: Upload coverage reports
+        uses: actions/upload-artifact@v3
+        with:
+          name: frontend-coverage
+          path: front/coverage
 
   docker-backend:
     needs: backend
