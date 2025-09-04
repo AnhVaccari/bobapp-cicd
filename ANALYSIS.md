@@ -73,8 +73,17 @@ série de vérifications et de déploiements pour garantir la qualité et la fia
 
 
 ### Retours utilisateurs
-D'après Bob : "beaucoup de mauvais avis sur le web" et "les avis sont de moins en moins bons".
-Les utilisateurs remontent de nombreux bugs, ce qui confirme le problème de reliability détecté.
+**Avis négatifs identifiés :**
+- **1 ⭐ :** "Impossible de poster une suggestion de blague, le bouton tourne et fait planter mon navigateur !"
+- **2 ⭐⭐ :** "Bug sur le post de vidéo remonté depuis deux semaines, toujours présent"
+- **1 ⭐ :** "Plus de réception depuis une semaine, email sans réponse depuis 5 jours"
+- **2 ⭐⭐ :** "J'ai supprimé ce site de mes favoris, vraiment dommage"
+
+**Problèmes identifiés :**
+- Bugs fonctionnels (boutons, vidéos)
+- Manque de réactivité sur les corrections
+- Support client défaillant
+- Perte d'utilisateurs
 
 
 ### Priorités d'amélioration
