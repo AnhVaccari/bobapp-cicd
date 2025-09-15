@@ -70,6 +70,16 @@ jobs:
       - name: Install SonarScanner
         run: npm install -g sonar-scanner
 
+      - name: Debug structure frontend
+        run: |
+          cd front
+          echo "=== Structure du projet ==="
+          ls -la
+          echo "=== Contenu src/ ==="
+          ls -la src/ || echo "Pas de dossier src"
+          echo "=== Fichiers .ts dans src/ ==="
+          find src/ -name "*.ts" | head -10 || echo "Pas de fichiers .ts"
+
       - name: SonarCloud scan frontend
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -80,4 +90,6 @@ jobs:
             -Dsonar.organization=anhvaccari \
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.login=$SONAR_TOKEN \
-            -Dsonar.sources=src
+            -Dsonar.sources=src \
+            -Dsonar.inclusions="**/*.ts,**/*.js,**/*.html" \
+            -X
