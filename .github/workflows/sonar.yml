@@ -91,5 +91,6 @@ jobs:
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.login=$SONAR_TOKEN \
             -Dsonar.sources=src \
-            -Dsonar.inclusions="**/*.ts,**/*.js,**/*.html" \
-            -X
+            -Dsonar.inclusions="src/**/*.ts,src/**/*.js,src/**/*.html" \
+            -Dsonar.exclusions="src/**/*.spec.ts,src/test.ts,node_modules/**" \
+            -Dsonar.typescript.node.maxspace=4096
