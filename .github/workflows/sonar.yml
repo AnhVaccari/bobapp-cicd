@@ -79,12 +79,4 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           cd front
-          sonar-scanner \
-            -Dsonar.projectKey=AnhVaccari_bobapp-cicd \
-            -Dsonar.organization=AnhVaccari \
-            -Dsonar.sources=src \
-            -Dsonar.tests=src \
-            -Dsonar.test.inclusions="**/*.spec.ts" \
-            -Dsonar.typescript.lcov.reportPaths=coverage/lcov.info \
-            -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.login=$SONAR_TOKEN
+          sonar-scanner -Dsonar.login=$SONAR_TOKEN
