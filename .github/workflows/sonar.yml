@@ -51,6 +51,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js 16
         uses: actions/setup-node@v4
@@ -67,23 +69,26 @@ jobs:
           cd front
           npm run test -- --code-coverage --watch=false --browsers=ChromeHeadless --source-map=false
 
-      - name: Install SonarScanner
-        run: npm install -g sonar-scanner
-
-      - name: Debug structure frontend
+      - name: Debug coverage location
         run: |
-          cd front
-          echo "=== Structure du projet ==="
-          ls -la
-          echo "=== Contenu src/ ==="
-          ls -la src/ || echo "Pas de dossier src"
-          echo "=== Fichiers .ts dans src/ ==="
-          find src/ -name "*.ts" | head -10 || echo "Pas de fichiers .ts"
+          echo "=== Structure du coverage ==="
+          ls -la front/coverage/ || echo "Pas de dossier coverage"
+          ls -la front/coverage/bobapp/ || echo "Pas de dossier coverage/bobapp"
+          echo "=== Vérification sonar-project.properties ==="
+          cat front/sonar-project.properties || echo "Pas de fichier sonar-project.properties"
 
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
-      - name: SonarQube Scan
+      - name: SonarCloud Scan Frontend
         uses: SonarSource/sonarqube-scan-action@v5
+        with:
+          args: >
+            -Dsonar.projectKey=anhvaccari_bobapp-frontend
+            -Dsonar.organization=anhvaccari
+            -Dsonar.sources=front/src
+            -Dsonar.tests=front/src
+            -Dsonar.test.inclusions=front/**/*.spec.ts
+            -Dsonar.exclusions=front/**/node_modules/**,front/**/*.spec.ts,front/**/dist/**,front/**/coverage/**
+            -Dsonar.javascript.lcov.reportPaths=front/coverage/bobapp/lcov.info
+            -Dsonar.projectBaseDir=./
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
