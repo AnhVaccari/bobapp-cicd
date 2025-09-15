@@ -19,8 +19,7 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
       - name: Build backend
-        run: |
-          run: mvn -f back/pom.xml clean compile package -DskipTests
+        run: mvn -f back/pom.xml clean compile package -DskipTests
   frontend:
     runs-on: ubuntu-latest
 
