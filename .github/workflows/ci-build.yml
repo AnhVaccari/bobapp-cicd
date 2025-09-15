@@ -18,6 +18,12 @@ jobs:
         with:
           java-version: '11'
           distribution: 'temurin'
+
+      - name: Cache Maven dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-maven-${{ hashFiles('back/pom.xml') }}
       - name: Build backend
         run: mvn -f back/pom.xml clean compile package -DskipTests
   frontend:
@@ -53,8 +59,8 @@ jobs:
       - name: Build and push backend
         run: |
           cd back
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/bobapp-back:latest .
-          docker push ${{ secrets.DOCKER_USERNAME }}/bobapp-back:latest
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/bobapp-back:${{ github.sha }} .
+          docker push ${{ secrets.DOCKER_USERNAME }}/bobapp-back:${{ github.sha }}
 
   docker-frontend:
     needs: frontend
@@ -72,5 +78,5 @@ jobs:
       - name: Build and push frontend
         run: |
           cd front
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/bobapp-front:latest .
-          docker push ${{ secrets.DOCKER_USERNAME }}/bobapp-front:latest
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/bobapp-front:${{ github.sha }} .
+          docker push ${{ secrets.DOCKER_USERNAME }}/bobapp-front:${{ github.sha }}
