@@ -48,6 +48,16 @@ jobs:
         run: |
           cd front
           npm run test -- --code-coverage --watch=false --browsers=ChromeHeadless
+
+      - name: Debug coverage files
+        run: |
+          cd front
+               echo "=== Structure après tests ==="
+               ls -la
+               echo "=== Contenu coverage ==="
+               ls -la coverage/ || echo "Pas de dossier coverage"
+               echo "=== Fichiers lcov ==="
+               find . -name "*.info" -type f || echo "Pas de fichier lcov"
       - name: Upload frontend coverage
         uses: actions/upload-artifact@v4
         with:
