@@ -65,7 +65,7 @@ jobs:
       - name: Run frontend tests with coverage
         run: |
           cd front
-          npm run test -- --code-coverage --watch=false --browsers=ChromeHeadless
+          npm run test -- --code-coverage --watch=false --browsers=ChromeHeadless --source-map=false
 
       - name: Install SonarScanner
         run: npm install -g sonar-scanner
