@@ -89,4 +89,6 @@ jobs:
             -Dsonar.projectKey=AnhVaccari_bobapp-cicd \
             -Dsonar.organization=anhvaccari \
             -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.login=$SONAR_TOKEN
+            -Dsonar.login=$SONAR_TOKEN \
+            -Dsonar.sources=src \
+            -X
