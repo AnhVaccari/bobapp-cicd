@@ -74,6 +74,8 @@ jobs:
           cd front
           npm run test -- --code-coverage --watch=false --browsers=ChromeHeadless
 
+      - name: Install SonarScanner
+        run: npm install -g sonar-scanner
       - name: SonarCloud scan frontend
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
