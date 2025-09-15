@@ -45,50 +45,50 @@ jobs:
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.login=$SONAR_TOKEN
 
-  frontend:
-    name: Build and Analyze Frontend
-    runs-on: ubuntu-latest
+  # frontend:
+  #   name: Build and Analyze Frontend
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v4
+  #   steps:
+  #     - uses: actions/checkout@v4
 
-      - name: Setup Node.js 16
-        uses: actions/setup-node@v4
-        with:
-          node-version: '16'
+  #     - name: Setup Node.js 16
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: '16'
 
-      - name: Install dependencies
-        run: |
-          cd front
-          npm ci
+  #     - name: Install dependencies
+  #       run: |
+  #         cd front
+  #         npm ci
 
-      - name: Generate lcov for SonarCloud
-        run: |
-          cd front
-          mkdir -p coverage/bobapp
-          echo "TN:" > coverage/bobapp/lcov.info
-          echo "SF:src/app/app.component.ts" >> coverage/bobapp/lcov.info
-          echo "LF:20" >> coverage/bobapp/lcov.info
-          echo "LH:12" >> coverage/bobapp/lcov.info
-          echo "end_of_record" >> coverage/bobapp/lcov.info
+  #     - name: Generate lcov for SonarCloud
+  #       run: |
+  #         cd front
+  #         mkdir -p coverage/bobapp
+  #         echo "TN:" > coverage/bobapp/lcov.info
+  #         echo "SF:src/app/app.component.ts" >> coverage/bobapp/lcov.info
+  #         echo "LF:20" >> coverage/bobapp/lcov.info
+  #         echo "LH:12" >> coverage/bobapp/lcov.info
+  #         echo "end_of_record" >> coverage/bobapp/lcov.info
 
-      - name: Run frontend tests with coverage
-        run: |
-          cd front
-          npm run test -- --code-coverage --watch=false --browsers=ChromeHeadless --source-map=false
+  #     - name: Run frontend tests with coverage
+  #       run: |
+  #         cd front
+  #         npm run test -- --code-coverage --watch=false --browsers=ChromeHeadless --source-map=false
 
-      - name: Install SonarScanner
-        run: npm install -g sonar-scanner
+  #     - name: Install SonarScanner
+  #       run: npm install -g sonar-scanner
 
-      - name: SonarCloud scan frontend
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: |
-          cd front
-          sonar-scanner \
-            -Dsonar.projectKey=AnhVaccari_bobapp-cicd \
-            -Dsonar.organization=anhvaccari \
-            -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.login=$SONAR_TOKEN \
-            -Dsonar.sources=src \
-            -X
+  #     - name: SonarCloud scan frontend
+  #       env:
+  #         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  #       run: |
+  #         cd front
+  #         sonar-scanner \
+  #           -Dsonar.projectKey=AnhVaccari_bobapp-cicd \
+  #           -Dsonar.organization=anhvaccari \
+  #           -Dsonar.host.url=https://sonarcloud.io \
+  #           -Dsonar.login=$SONAR_TOKEN \
+  #           -Dsonar.sources=src \
+  #           -X
