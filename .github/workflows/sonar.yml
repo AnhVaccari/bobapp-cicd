@@ -80,17 +80,10 @@ jobs:
           echo "=== Fichiers .ts dans src/ ==="
           find src/ -name "*.ts" | head -10 || echo "Pas de fichiers .ts"
 
-      - name: SonarCloud scan frontend
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v5
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: |
-          cd front
-          sonar-scanner \
-            -Dsonar.projectKey=AnhVaccari_bobapp-frontend \
-            -Dsonar.organization=anhvaccari \
-            -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.login=$SONAR_TOKEN \
-            -Dsonar.sources=src \
-            -Dsonar.inclusions="src/**/*.ts,src/**/*.js,src/**/*.html" \
-            -Dsonar.exclusions="src/**/*.spec.ts,src/test.ts,node_modules/**" \
-            -Dsonar.typescript.node.maxspace=4096
