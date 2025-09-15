@@ -58,12 +58,6 @@ jobs:
         with:
           node-version: '16'
 
-      - name: Cache npm dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('front/package-lock.json') }}
-
       - name: Install dependencies
         run: |
           cd front
@@ -82,12 +76,4 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           cd front
-          sonar-scanner \
-            -Dsonar.projectKey=AnhVaccari_bobapp-cicd \
-            -Dsonar.organization=anhvaccari \
-            -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.sources=src \
-            -Dsonar.tests=src \
-            -Dsonar.test.inclusions=**/*.spec.ts \
-            -Dsonar.typescript.lcov.reportPaths=coverage/lcov.info \
-            -Dsonar.login=$SONAR_TOKEN
+          sonar-scanner -Dsonar.login=$SONAR_TOKEN
