@@ -61,6 +61,12 @@ jobs:
             touch coverage/bobapp/lcov.info
             echo "SF:src/app/app.component.ts" > coverage/bobapp/lcov.info
             echo "end_of_record" >> coverage/bobapp/lcov.info
+
+      - name: Vérifier lcov.info créé
+        run: |
+          cd front
+          ls -la coverage/bobapp/lcov.info
+          cat coverage/bobapp/lcov.info
       - name: Upload frontend coverage
         uses: actions/upload-artifact@v4
         with:
