@@ -58,6 +58,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '16'
+          cache: 'npm'
+          cache-dependency-path: front/package-lock.json
 
       - name: Install dependencies
         run: |
@@ -68,14 +70,6 @@ jobs:
         run: |
           cd front
           npm run test -- --code-coverage --watch=false --browsers=ChromeHeadless --source-map=false
-
-      - name: Debug coverage location
-        run: |
-          echo "=== Structure du coverage ==="
-          ls -la front/coverage/ || echo "Pas de dossier coverage"
-          ls -la front/coverage/bobapp/ || echo "Pas de dossier coverage/bobapp"
-          echo "=== Vérification sonar-project.properties ==="
-          cat front/sonar-project.properties || echo "Pas de fichier sonar-project.properties"
 
       - name: SonarCloud Scan Frontend
         uses: SonarSource/sonarqube-scan-action@v5

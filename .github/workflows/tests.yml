@@ -49,21 +49,6 @@ jobs:
           cd front
           npm run test -- --code-coverage --watch=false --browsers=ChromeHeadless
 
-      - name: Generate basic lcov file
-        run: |
-          cd front
-            mkdir -p coverage/bobapp
-            echo "TN:" > coverage/bobapp/lcov.info
-            echo "SF:src/app/app.component.ts" >> coverage/bobapp/lcov.info
-            echo "LF:20" >> coverage/bobapp/lcov.info
-            echo "LH:12" >> coverage/bobapp/lcov.info
-            echo "end_of_record" >> coverage/bobapp/lcov.info
-
-      - name: Vérifier lcov.info créé
-        run: |
-          cd front
-          ls -la coverage/bobapp/lcov.info
-          cat coverage/bobapp/lcov.info
       - name: Upload frontend coverage
         uses: actions/upload-artifact@v4
         with:
