@@ -19,7 +19,7 @@ série de vérifications et de déploiements pour garantir la qualité et la fia
 
 #### 3. Analyse Qualité (SonarCloud)
 - **Objectif :** Analyser la qualité du code et détecter les problèmes
-- **Actions :** Scan du code backend, détection des bugs, calcul des métriques
+- **Actions :** Scan du code backend et frond end, détection des bugs, calcul des métriques
 
 #### 4. Build Docker Backend
 - **Objectif :** Créer l'image Docker du backend
@@ -36,39 +36,59 @@ série de vérifications et de déploiements pour garantir la qualité et la fia
 
 ### Fichiers de configuration
 
+#### `.github/workflows/tests.yml` 
+- **Rôle :** Exécution des tests backend et frontend
+- **Jobs :** backend-tests, frontend-tests
+- **Artéfacts :** Rapports de couverture de code
+
 #### `.github/workflows/ci-build.yml`
-- **Rôle :** Pipeline principale avec tests, builds et Docker
+- **Rôle :** Build et création des images Docker
 - **Jobs :** backend, frontend, docker-backend, docker-frontend
+- **Dépendances :** Déclenché après validation des tests
 
 #### `.github/workflows/sonar.yml` 
 - **Rôle :** Analyse qualité du code avec SonarCloud
-- **Déclenchement :** En parallèle du workflow principal
+- **Jobs :** backend, frontend
+- **Déclenchement :** En parallèle des autres workflows
 
 #### `back/pom.xml`
 - **Modification :** Ajout de l'organisation SonarCloud
 - **Plugins :** Jacoco pour la couverture de code
+- 
+#### `front/karma.conf.js`
+- **Modification :** Ajout du reporter lcov dans coverageReporter
+- **Objectif :** Génération automatique du fichier lcov.info pour SonarCloud
 
 
 ## 2. KPI proposés
 
 ### 1. Code Coverage (Obligatoire)
-- **Seuil minimum :** 60%
-- **Actuel :** 38.8% 
-- **Justification :** Garantir qu'au moins 60% du code est testé pour réduire les risques de bugs
+- **Seuil minimum :** 70%
+- **Actuel Backend :** 38.8% 
+- **Actuel Frontend :** 56.0% 
+- **Justification :** Garantir qu'au moins 70% du code est testé pour réduire les risques de bugs
 
 ### 2. Reliability (Fiabilité)  
 - **Seuil minimum :** Note B ou supérieure
-- **Actuel :** Note D (1 problème détecté)
+- **Actuel Backend :** Note D (1 problème détecté)
+- **Actuel Frontend :** Note A (exellent)
 - **Justification :** Éviter les bugs qui peuvent affecter le fonctionnement de l'application
 
 
 ## 3. Analyse des métriques actuelles
 
-### Métriques techniques
-- **Coverage :** 38.8% (insuffisant, objectif 60%)
-- **Reliability :** Note D - 1 bug détecté à corriger
+### Métriques Backend (178 lignes)
+- **Coverage :** 38.8% (insuffisant, objectif 70%)
+- **Reliability :** Note D - 1 bug critique à corriger
 - **Maintainability :** Note A - 8 code smells mineurs
-- **Security :** Note A - Niveau excellent maintenu
+- **Security :** Note A - Niveau excellent 
+- **Duplications :** 0% - Aucun code dupliqué
+
+### Métriques Frontend (161 lignes)
+- **Coverage :** 56.0% (encore insuffisant, l'objectif 70%)
+- **Reliability :** Note A - Aucun bug détecté
+- **Maintainability :** Note A - 5 code smells mineurs
+- **Security :** Note A - Niveau excellent 
 - **Duplications :** 0% - Aucun code dupliqué
 
 
@@ -80,13 +100,14 @@ série de vérifications et de déploiements pour garantir la qualité et la fia
 - **2 ⭐⭐ :** "J'ai supprimé ce site de mes favoris, vraiment dommage"
 
 **Problèmes identifiés :**
-- Bugs fonctionnels (boutons, vidéos)
+- Bugs fonctionnels (boutons, vidéos) - corélation avec le bug reliability backend
 - Manque de réactivité sur les corrections
 - Support client défaillant
 - Perte d'utilisateurs
 
 
 ### Priorités d'amélioration
-1. **Corriger le bug de reliability** (Note D → B)
-2. **Augmenter la couverture des tests** (38.8% → 60%)
-3. **Résoudre les 8 code smells** pour maintenir la maintenabilité
+1. **URGENT - Corriger le bug de reliability bavkend** (Note D → B) - Impact direct sur l'expérience utilisateur
+2. **Augmenter la couverture des tests backend** (38.8% → 70%)
+3. **Légère amélioration frontend** (56.0% → 70%)
+4. **Résoudre les code smells** (8 backend + 5 frontend) pour maintenir la maintenabilité
